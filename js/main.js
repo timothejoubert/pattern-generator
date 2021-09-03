@@ -15,10 +15,10 @@ function initBg() {
   var DOMURL = self.URL || self.webkitURL || self;
   img = new Image();
   img2 = new Image();
-  svg = new Blob([svgString], {type: "image/svg+xml;charset=utf-8"});
+  svg = new Blob([svgString], { type: "image/svg+xml;charset=utf-8" });
   url = DOMURL.createObjectURL(svg);
 
-  img.onload = function() {
+  img.onload = function () {
     //init canvas with img
     ctx.drawImage(img, 0, 0);
     png = canvas.toDataURL("image/png");
@@ -31,9 +31,9 @@ function initBg() {
 
     DOMURL.revokeObjectURL(png);
 
-    document.querySelectorAll('.bg').forEach(el => el.style.backgroundImage = 'url('+ canvas.toDataURL("image/png") + ')');
+    document.querySelectorAll('.bg').forEach(el => el.style.backgroundImage = 'url(' + canvas.toDataURL("image/png") + ')');
   }
-  img.src = url; 
+  img.src = url;
   imgContainSmt = true;
 }
 
@@ -41,7 +41,7 @@ function initBg() {
 function clearPreviousPattern() {
   document.querySelectorAll('.bg').forEach(el => el.style.backgroundImage = 'none');
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  if(containerPng){
+  if (containerPng) {
     containerPng.remove();
   }
 }
@@ -50,23 +50,23 @@ function clearPreviousPattern() {
 var nbScreen = localStorage.getItem('nbScreen');
 
 //init nbscreen if first stime
-if(!nbScreen){
+if (!nbScreen) {
   nbScreen = 0;
 }
 console.log('nombre de screen : ' + nbScreen);
-localStorage.setItem('nbScreen', nbScreen ++);
+localStorage.setItem('nbScreen', nbScreen++);
 
 //Screen bg
-$("#screen-bg").click(function() { 
-    html2canvas($(".bg"), {
-        onrendered: function(canvas) {
-            theCanvas = canvas;
-            canvas.toBlob(function(blob) {
-                saveAs(blob, "pattern-"+ nbScreen +".png");
-            });
-        }
-    });
-    localStorage.setItem('nbScreen', nbScreen ++);
+$("#screen-bg").click(function () {
+  html2canvas($(".bg"), {
+    onrendered: function (canvas) {
+      theCanvas = canvas;
+      canvas.toBlob(function (blob) {
+        saveAs(blob, "pattern-" + nbScreen + ".png");
+      });
+    }
+  });
+  localStorage.setItem('nbScreen', nbScreen++);
 });
 
 
@@ -95,15 +95,15 @@ var svgWidth = mySvg.getBoundingClientRect().width;
 var valueSnap = document.getElementById("snap-range").value;
 var rectSize = 10;
 
-function newRect(){
+function newRect() {
   // make a simple rectangle
   let newRect = document.createElementNS(svgns, "rect");
-  if(posX > svgWidth/4){
+  if (posX > svgWidth / 4) {
     posX = 0;
     depX = 0;
     posY += rectSize;
   }
-  if(posY > mySvg.getBoundingClientRect().height/4){
+  if (posY > mySvg.getBoundingClientRect().height / 4) {
     posX = 0;
     depX = 0;
     posY = 0;
@@ -130,15 +130,16 @@ function newRect(){
   console.log(posX, posY, depX, id);
 }
 
-function deleteLastShape(){
+
+function deleteLastShape() {
   console.log(containerRect);
-  containerRect.splice(-1,1);
+  containerRect.splice(-1, 1);
   mySvg.lastChild.remove();
   mySvg.lastChild.remove();
   initBg();
 }
 
-function deleteAllShape(){
+function deleteAllShape() {
   containerRect = [];
   console.log(mySvg.firstChild);
   while (mySvg.firstChild) {
@@ -154,11 +155,11 @@ function deleteAllShape(){
 
 //OPTIONS DRAG - snap 
 
-function initSnap(changeSnap){
-  containerRect.forEach(function(item){
-    //item.snap = {step: svgWidth/changeSnap};
-    item.snap = {step: 5};
-    item.onMove = function(){initBg()};
+function initSnap(changeSnap) {
+  containerRect.forEach(function (item) {
+    item.snap = { step: svgWidth / changeSnap };
+    //item.snap = { step: 5 };
+    item.onMove = function () { initBg() };
   });
 }
 
@@ -173,9 +174,9 @@ widthSlider.addEventListener("input", e => {
 const cornerSlider = document.querySelector("#corner-range");
 
 cornerSlider.addEventListener("input", e => {
-  console.log("rx value : "+ e.target.value);
+  console.log("rx value : " + e.target.value);
   rx = e.target.value;
-  $("svg rect").each(function(){
+  $("svg rect").each(function () {
     $(this).attr("rx", e.target.value);
   });
   initBg();
@@ -184,7 +185,7 @@ cornerSlider.addEventListener("input", e => {
 //snap
 const snapSlider = document.querySelector("#snap-range");
 
-function getSnap(){
+function getSnap() {
   valueSnap = snapSlider.value;
   console.log(valueSnap);
   initSnap(valueSnap);
@@ -207,7 +208,7 @@ const sizeRectSlider = document.querySelector("#size-rect-range");
 
 sizeRectSlider.addEventListener("input", e => {
   rectSize = e.target.value;
-  containerRect.forEach(function(item){
+  containerRect.forEach(function (item) {
     console.log(item.element);
     item.element.setAttribute("width", rectSize);
     item.element.setAttribute("height", rectSize);
@@ -222,8 +223,8 @@ sizeRectSlider.addEventListener("input", e => {
 //changer input
 var currentColor;
 const couleurPicker = document.querySelector("#color-rect");
-couleurPicker.addEventListener("input", function(){
-  var colorPickerValue = this.value; 
+couleurPicker.addEventListener("input", function () {
+  var colorPickerValue = this.value;
   console.log(selectedItem, colorPickerValue);
   selectedItem.setAttribute("fill", colorPickerValue);
   document.getElementById("color-input").innerHTML = colorPickerValue;
@@ -236,19 +237,19 @@ var selectedItem;
 var selectedItemColor;
 var colorParam = document.getElementById("color-param");
 
-document.addEventListener('click', function(e){
-  if(e.target.tagName == "rect"){
+document.addEventListener('click', function (e) {
+  if (e.target.tagName == "rect") {
     //store value of clicked element
     selectedItem = e.target;
     selectedItemColor = selectedItem.getAttribute("fill");
     couleurPicker.value = selectedItemColor;
-    console.log(selectedItem, selectedItemColor); 
+    console.log(selectedItem, selectedItemColor);
 
     //display value
     document.getElementById("rect-selected").innerHTML = selectedItem.getAttribute("data-name");
     document.getElementById("color-input").innerHTML = selectedItemColor;
     colorParam.classList.remove("hide");
-  
+
   }
   //hide param if last click isn't a rect 
   /*else{
@@ -304,10 +305,10 @@ sliderHeightBg.addEventListener("input", e => {
 
 var direction = "horizontal";
 
-function changeDirection(){
-  if(direction == "horizontal"){
+function changeDirection() {
+  if (direction == "horizontal") {
     direction = "vertical";
-  }else{
+  } else {
     direction = "horizontal";
   }
   initDivBg();
@@ -315,38 +316,38 @@ function changeDirection(){
 }
 
 var nbDiv = 30;
-function initDivBg(){
+function initDivBg() {
   while (containerBg.firstChild) {
     containerBg.removeChild(containerBg.firstChild);
   }
-  if(scroller){
+  if (scroller) {
     scroller.destroy();
   }
-  for(var i = 0; i < nbDiv; i++){
+  for (var i = 0; i < nbDiv; i++) {
     var newBg = document.createElement("div");
-    var newLerp = parseInt(lerpBg, 10) + i/nbDiv*0.2;
+    var newLerp = parseInt(lerpBg, 10) + i / nbDiv * 0.2;
     //commun
     newBg.setAttribute("data-scroll", "");
     newBg.setAttribute("data-scroll-repeat", "true");
     newBg.style.height = heightBg + "px";
-    
+
     newBg.classList.add("bg");
-  
-    if(i%2 == 0){ //impair - premier
+
+    if (i % 2 == 0) { //impair - premier
       newBg.setAttribute("data-scroll-speed", vitesseBg);
       newBg.setAttribute("data-scroll-direction", direction);
       newBg.setAttribute("data-scroll-delay", newLerp);
-    }else{ //pair
-      newBg.setAttribute("data-scroll-speed", vitesseBg*-1);
+    } else { //pair
+      newBg.setAttribute("data-scroll-speed", vitesseBg * -1);
       newBg.setAttribute("data-scroll-direction", direction);
       newBg.setAttribute("data-scroll-delay", newLerp);
     }
     containerBg.appendChild(newBg);
-  }  
+  }
   newScrollClass();
 }
 
-function newScrollClass(){
+function newScrollClass() {
   scroller = new LocomotiveScroll({
     el: document.querySelector('[data-scroll-container]'),
     smooth: true
@@ -354,3 +355,4 @@ function newScrollClass(){
 }
 
 initDivBg();
+newRect();
