@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Template</title>
+    <link rel="stylesheet" href="css/loco-scroll.css">
+    <link rel="stylesheet" href="css/stylesheet.css">
+</head>
+
+<body>
+
+    <div class="container-fixe" data-scroll-container>
+        <header data-scroll-section>
+            <div class="shape-custom">
+                <div class="controls">
+                    <label>
+                        La forme sélectionnée : 
+                        <span id="rect-selected"></span>
+                    </label>
+                    <label id="color-param">
+                        Couleur
+                        <input type="color" id="color-rect" name="head"
+                        value="#e66465">
+                        <span id="color-input"></span>
+                    </label>
+                    <label>
+                    Width
+                    <input type="range" min="4" max="400" value="40" id="width-range">
+                    </label>
+                    <label>
+                        rond
+                        <input type="range" min="0" max="5" value="0" id="corner-range">
+                    </label>
+                    <label>
+                        snap
+                        <input type="range" min="4" max="16" value="4" step="4" id="snap-range">
+                    </label>
+                    <label>
+                        Taille rectangle
+                        <input type="range" min="5" max="15" value="10" step="5" id="size-rect-range">
+                    </label>
+                </div>
+                <div id="container-svg">
+                    <svg id="shape-generator" xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewbox="0 0 40 40" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve"></svg>  
+                    <label>
+                        Ajouter forme
+                        <input type="button" value="+" onclick="newRect()">
+                    </label>
+                    <label>
+                        Supprimer forme
+                        <input type="button" value="-" onclick="deleteLastShape()">
+                    </label>
+                    <button id="valid-bg">Tout effacer</button>
+                </div>
+            </div>
+            <div class="bg-custom">
+                <label>
+                    Vitesse déplacement
+                    <input type="range" min="0" max="20" value="3" id="vitesse-bg-range">
+                </label>
+                <label>
+                    Lerp - décalage
+                    <input type="range" min="0" max="0.9" value="0.5" step="0.01"id="lerp-bg-range">
+                </label>
+                <label>
+                    hauteur bg
+                    <input type="range" min="40" max="480" value="240" step="40"id="height-bg-range">
+                </label>
+                <label>
+                    horizontal
+                    <input type="button" value="on" id="direction-bg-range" onclick="changeDirection()">
+                </label>
+            </div>
+        </header>
+
+        <canvas id="canvas" width="120" height="120"></canvas>
+
+        <div class="container-bg" data-scroll-section>
+            
+        </div>
+    </div>
+
+    <!-- JS -->
+    <script src="js/jquery-3.3.1.min.js"></script>
+
+    <!-- draggable -->
+    <script src="js/jquery-ui.min.js"></script>
+    <script src="js/plain-draggable.min.js"></script>
+    
+    <!-- locomotive -->
+    <script src="js/locomotive-scroll-min.js"></script>
+
+    <script src="js/main.js"></script>
+</body>
+
+</html>
